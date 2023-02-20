@@ -1,0 +1,52 @@
+train_dir = "../input/mri-image-based-brain-tumor-classification/MRI Image Dataset for Brain Tumor/Training"
+val_dir = "../input/mri-image-based-brain-tumor-classification/MRI Image Dataset for Brain Tumor/Testing"
+test_dir = "../input/mri-image-based-brain-tumor-classification/MRI Image Dataset for Brain Tumor/Validation"
+
+
+img_width, img_height = 224, 224
+batch_size=32
+
+def data_loader(color_mode='rgb'):
+    
+    train_gen = ImageDataGenerator(rescale=1./255, rotation_range=45, 
+                                  horizontal_flip=True, vertical_flip=True,
+                                  brightness_range=[0.5, 1.5])
+
+    train_data = train_gen.flow_from_directory(
+        directory=train_dir,
+        target_size=(img_width, img_height),
+        color_mode=color_mode,
+        batch_size=batch_size,
+        class_mode='categorical',
+        shuffle=True,
+        seed=42
+
+    )
+    
+    val_gen = ImageDataGenerator(rescale=1./255)
+    validation_data = val_gen.flow_from_directory(
+        directory=val_dir,
+        target_size=(img_width, img_height),
+        color_mode=color_mode,
+        batch_size=batch_size,
+        class_mode='categorical',
+        shuffle=True,
+        seed=42
+
+    )
+    
+    test_gen = ImageDataGenerator(rescale=1./255)
+    test_data = test_gen.flow_from_directory(
+        directory=test_dir,
+        target_size=(img_width, img_height),
+        color_mode=color_mode,
+        batch_size=1,
+        class_mode=None,
+        shuffle=False
+    )
+        
+
+    
+    return train_data, validation_data, test_data
+
+train_set, val_set, test_set = data_loader()
