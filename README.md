@@ -19,3 +19,6 @@ The MRI scans are in grayscale, and the difference between some tumors can be ve
 I enjoyed exploring the data and to check how different hyper-parameters influence the model.
 
 I hope that you will enjoy from my project too 😊
+
+
+Link to the project: https://www.kaggle.com/code/meiravcohen/mri-brain-tumor-classification-vgg-16#Import-Libraries
