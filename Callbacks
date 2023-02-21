@@ -1,0 +1,7 @@
+def callbacks():
+    checkpoint = ModelCheckpoint('best_vgg16.h5', monitor='val_loss', mode='min', verbose=1, save_best_only=True)
+    early = EarlyStopping(monitor='val_loss', mode='min', patience=10, verbose=1)
+
+    return checkpoint, early
+
+call_callbacks = callbacks()
