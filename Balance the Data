@@ -1,0 +1,6 @@
+from sklearn.utils import class_weight
+
+classes = np.unique(train_set.classes)
+weights_balance = class_weight.compute_class_weight(class_weight='balanced', classes=classes,y=train_set.classes)
+class_weights = dict(zip(classes, weights_balance))
+print(class_weights)
