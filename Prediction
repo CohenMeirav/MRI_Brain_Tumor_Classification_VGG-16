@@ -1,0 +1,14 @@
+from sklearn.metrics import accuracy_score
+test_set.reset()
+
+filenames = test_set.filenames
+nb_samples = np.ceil(test_set.n//test_set.batch_size)
+
+
+make_predictions = training_model.predict(test_set,steps=nb_samples)
+predicted_classes = np.argmax(make_predictions, axis=1)
+labels = dict((v,k) for k,v in test_set.class_indices.items())
+predictions = [labels[k] for k in predicted_classes]
+
+test_score = accuracy_score(test_set.classes, predicted_classes) * 100
+print('The accuracy score of the test data on the training model is: %0.2f%% ' % (test_score))
