@@ -1,0 +1,8 @@
+plt.figure(figsize=(8, 8))
+plt.plot(hist.history['loss'])
+plt.plot(hist.history['val_loss'])
+plt.title('Model loss\n', fontsize=18, fontweight='bold')
+plt.ylabel('Loss', fontsize=15)
+plt.xlabel('Epochs', fontsize=15)
+plt.legend(['Train loss','Validation loss'], fontsize=13, loc='upper right')
+plt.show()
