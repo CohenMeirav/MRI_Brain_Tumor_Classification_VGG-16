@@ -1,0 +1,57 @@
+def data_exploration(dir_path, train_data):
+    myimgs = []
+    for folder, subfolders, files in os.walk(dir_path):
+        for file in files:
+            path, filename = os.path.split(folder)
+            random_file = np.random.choice(files)
+            file_path = os.path.join(path, filename, random_file)
+            myimgs.append(file_path)
+            break
+
+
+    plt.figure(figsize=(8, 8))
+    for i in range(len(myimgs)):
+        plt.subplot(2, 2, i+1)
+        imig = myimgs[i]
+        title = imig.split('/')
+        plt.title(title[5], fontsize=14)
+        imig = plt.imread(imig)
+        imig = cv2.resize(imig, (224, 224))
+        plt.imshow(imig, cmap='gray')
+        plt.xticks([])
+        plt.yticks([])
+        plt.suptitle('\nImage representation per class', fontsize=18, fontweight='bold')
+    plt.tight_layout(pad=4)
+    plt.show()
+    
+
+    plt.figure(figsize=(8, 8))
+    for j in range(len(myimgs)):
+        plt.subplot(2, 2, j + 1)
+        img = myimgs[j]
+        title = img.split('/')
+        plt.title(title[5], fontsize=14)
+        img = cv2.imread(img)
+        plt.hist(img.ravel(), 256, [0, 255])
+        plt.xticks(fontsize=8)
+        plt.yticks(fontsize=8)
+        plt.tight_layout(pad=2)
+        plt.suptitle('\n\nPixels values distribution', fontsize=18, fontweight='bold')
+    plt.show()
+
+
+    def add_values(classes,counts):
+        for i in range(0, len(classes)):
+            plt.text(i,counts[i]+25,counts[i], fontsize=12, horizontalalignment='center')
+        
+    my_classes = train_data.class_indices.keys()
+    my_count = Counter(train_data.classes)    
+    plt.figure(figsize=(8, 8))
+    plt.bar(my_classes, my_count.values(), color=['pink', 'c', 'yellow', 'salmon'])
+    add_values(my_classes,my_count)
+    plt.ylabel('Counts per class\n', fontsize=13)
+    plt.xlabel('\nClasses', fontsize=13)
+    plt.title('\n\nBalance check\n\n', fontsize=18, fontweight='bold')
+    plt.show()
+
+data_exploration(train_dir, train_set)
