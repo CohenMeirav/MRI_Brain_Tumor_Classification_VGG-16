@@ -1,0 +1,19 @@
+def transfer_learning(layer_num=19):
+    my_model = VGG16()
+    for layers in (my_model.layers)[:layer_num]:
+        layers.trainable = False
+
+    flatten = my_model.layers[-4].output
+    fc_1 = Dense(4096, activation='relu', kernel_regularizer='l2', name='FC_1')(flatten)
+    bn_norm_1 = BatchNormalization(name='BN_1')(fc_1)
+    drop_1 = Dropout(rate=0.5, name='Dropout_1')(bn_norm_1)
+    fc_2 = Dense(4096, activation='relu', kernel_regularizer='l2', name='FC_2')(drop_1)
+    bn_norm_2 = BatchNormalization(name='BN_2')(fc_2)
+    drop_2 = Dropout(rate=0.5, name='Dropout_2')(bn_norm_2)
+    predictions = Dense(4, activation='softmax', name='Predictions')(drop_2)
+    final_model = Model(inputs=my_model.input, outputs=predictions)
+    final_model.summary()
+
+    return final_model
+
+training_model = transfer_learning()
